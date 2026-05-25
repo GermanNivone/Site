@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Адаб • Онлайн-курс для мальчиков 7–12 лет</title>
+  <style>
+    /* ===== CSS-переменные ===== */
+    :root {
+      --bg: #F8FAFC;
+      --white: #FFFFFF;
+      --deep-blue: #1E3A5F;
+      --accent: #0EA5E9;
+      --accent-hover: #0284C7;
+      --gold: #F59E0B;
+      --gold-hover: #D97706;
+      --text-dark: #1E293B;
+      --text-light: #64748B;
+      --danger-light: #FEF2F2;
+      --danger: #EF4444;
+      --success-light: #F0FDF4;
+      --success: #22C55E;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --shadow: 0 4px 24px rgba(30,58,95,0.08);
+      --shadow-hover: 0 8px 32px rgba(30,58,95,0.14);
+      --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+      /* Легко заменяемые данные */
+      --old-price: "5 500 ₽";
+      --new-price: "4 950 ₽";
+      --telegram-link: "https://t.me/ustaz_hanif";
+      --telegram-handle: "@ustaz_hanif";
+    }
+
+    /* ===== Сброс и базовые стили ===== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text-dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ===== Утилиты ===== */
+    .container {
+      max-width: 1140px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .section-title {
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      font-weight: 800;
+      color: var(--deep-blue);
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+      font-size: clamp(1rem, 2.5vw, 1.15rem);
+      color: var(--text-light);
+      text-align: center;
+      max-width: 640px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* Анимация появления секций */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== Кнопки ===== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--white);
+      box-shadow: 0 4px 14px rgba(14,165,233,0.35);
+    }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      box-shadow: 0 6px 20px rgba(14,165,233,0.45);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: var(--white);
+      color: var(--deep-blue);
+      border: 2px solid var(--deep-blue);
+    }
+    .btn-outline:hover {
+      background: var(--deep-blue);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--white);
+      box-shadow: 0 4px 14px rgba(245,158,11,0.35);
+    }
+    .btn-gold:hover {
+      background: var(--gold-hover);
+      box-shadow: 0 6px 20px rgba(245,158,11,0.45);
+      transform: translateY(-2px);
+    }
+
+    /* Пульсация */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(14,165,233,0.5); }
+      70% { box-shadow: 0 0 0 16px rgba(14,165,233,0); }
+      100% { box-shadow: 0 0 0 0 rgba(14,165,233,0); }
+    }
+    .btn-pulse {
+      animation: pulse 2s infinite;
+    }
+
+    /* ===== HEADER ===== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: blur(4px);
+      transition: all var(--transition);
+      border-bottom: 1px solid transparent;
+    }
+    .header.scrolled {
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(30,58,95,0.08);
+      box-shadow: 0 2px 16px rgba(30,58,95,0.06);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+
+    .logo {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--deep-blue);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .logo span {
+      color: var(--accent);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav a {
+      text-decoration: none;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color var(--transition);
+    }
+    .nav a:hover {
+      color: var(--accent);
+    }
+
+    .header .btn {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+    }
+
+    /* Гамбургер */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+      z-index: 1100;
+    }
+    .hamburger span {
+      display: block;
+      width: 26px;
+      height: 3px;
+      background: var(--deep-blue);
+      border-radius: 3px;
+      transition: all var(--transition);
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 6px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -6px);
+    }
+
+    /* Мобильное меню */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(255,255,255,0.98);
+      backdrop-filter: blur(16px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+      z-index: 1050;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .mobile-menu.open {
+      display: flex;
+      opacity: 1;
+    }
+    .mobile-menu a {
+      text-decoration: none;
+      color: var(--deep-blue);
+      font-size: 1.2rem;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .nav { display: none; }
+      .header .btn-primary.desktop-only { display: none; }
+      .hamburger { display: flex; }
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: 100px 0 60px;
+      background: linear-gradient(170deg, #E0F2FE 0%, var(--bg) 60%);
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      font-weight: 900;
+      color: var(--deep-blue);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2.5vw, 1.15rem);
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      max-width: 500px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    /* CSS-иллюстрация */
+    .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-circle {
+      width: clamp(220px, 28vw, 340px);
+      height: clamp(220px, 28vw, 340px);
+      border-radius: 50%;
+      background: linear-gradient(135deg, #BAE6FD 0%, #7DD3FC 50%, #38BDF8 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 20px 60px rgba(14,165,233,0.2);
+      position: relative;
+    }
+    .hero-circle::after {
+      content: '';
+      position: absolute;
+      inset: -16px;
+      border-radius: 50%;
+      border: 3px dashed rgba(14,165,233,0.25);
+    }
+    .hero-emoji {
+      font-size: clamp(3rem, 6vw, 4.5rem);
+      line-height: 1;
+    }
+    .hero-emoji-small {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+
+    @media (max-width: 768px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .hero p { margin-left: auto; margin-right: auto; }
+      .hero-buttons { justify-content: center; }
+      .hero-visual { order: -1; }
+      .hero-circle {
+        width: 180px;
+        height: 180px;
+      }
+    }
+
+    /* ===== СЕКЦИЯ ПРОБЛЕМА → РЕШЕНИЕ ===== */
+    .problems {
+      padding: 80px 0;
+    }
+
+    .problems-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .problem-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 24px;
+      transition: all var(--transition);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .problem-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-4px);
+    }
+
+    .problem-part {
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .problem-part.issue {
+      background: var(--danger-light);
+      border-left: 4px solid var(--danger);
+      color: #991B1B;
+    }
+    .problem-part.solution {
+      background: var(--success-light);
+      border-left: 4px solid var(--success);
+      color: #166534;
+    }
+
+    .arrow-divider {
+      text-align: center;
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      .problems-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== ДЛЯ КОГО ===== */
+    .audience {
+      padding: 80px 0;
+      background: linear-gradient(180deg, var(--white) 0%, var(--bg) 100%);
+    }
+
+    .audience-text {
+      text-align: center;
+      font-size: 1.05rem;
+      color: var(--text-light);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .audience-warning {
+      max-width: 560px;
+      margin: 0 auto;
+      padding: 18px 24px;
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: var(--radius-sm);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      font-size: 0.95rem;
+      color: #92400E;
+    }
+    .audience-warning .icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    /* ===== ПРОГРАММА ===== */
+    .program {
+      padding: 80px 0;
+    }
+
+    .program-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+
+    .module-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: all var(--transition);
+      cursor: default;
+    }
+    .module-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: scale(1.03);
+    }
+    .module-card .emoji {
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+    .module-card .name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--deep-blue);
+    }
+
+    @media (max-width: 768px) {
+      .program-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== ПРЕПОДАВАТЕЛЬ ===== */
+    .teacher {
+      padding: 80px 0;
+      background: linear-gradient(180deg, var(--bg) 0%, #E0F2FE 100%);
+    }
+
+    .teacher-card {
+      max-width: 700px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 36px 32px;
+    }
+
+    .teacher-avatar {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--deep-blue));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.6rem;
+      margin: 0 auto 1.2rem;
+      box-shadow: 0 8px 24px rgba(14,165,233,0.25);
+    }
+
+    .teacher-desc {
+      text-align: center;
+      font-size: 1.05rem;
+      color: var(--text-dark);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .teacher-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+    .teacher-points li {
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .teacher-points .emoji {
+      font-size: 1.3rem;
+    }
+
+    .teacher-quote {
+      background: var(--bg);
+      border-left: 4px solid var(--gold);
+      border-radius: var(--radius-sm);
+      padding: 18px 22px;
+      font-style: italic;
+      color: var(--text-light);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    /* ===== ФОРМАТ ===== */
+    .format {
+      padding: 80px 0;
+    }
+
+    .format-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 2rem;
+    }
+
+    .format-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 24px;
+      text-align: center;
+      transition: all var(--transition);
+    }
+    .format-card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-4px);
+    }
+    .format-card .emoji {
+      font-size: 2.4rem;
+      margin-bottom: 14px;
+    }
+    .format-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--deep-blue);
+      margin-bottom: 6px;
+    }
+    .format-card p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    .format-note {
+      background: linear-gradient(135deg, var(--accent), var(--deep-blue));
+      color: var(--white);
+      padding: 20px 28px;
+      border-radius: var(--radius);
+      text-align: center;
+      font-weight: 700;
+      font-size: 1.05rem;
+      box-shadow: 0 8px 24px rgba(14,165,233,0.25);
+    }
+
+    @media (max-width: 768px) {
+      .format-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== ЦЕНА ===== */
+    .pricing {
+      padding: 80px 0;
+      background: linear-gradient(180deg, var(--bg) 0%, #FEF3C7 40%, var(--bg) 100%);
+    }
+
+    .pricing-box {
+      max-width: 560px;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-hover);
+      padding: 36px 32px;
+      text-align: center;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .old-price {
+      font-size: 1.3rem;
+      color: var(--text-light);
+      text-decoration: line-through;
+    }
+
+    .new-price {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--gold);
+    }
+
+    .discount-badge {
+      background: var(--gold);
+      color: var(--white);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    /* Таймер */
+    .timer-label {
+      font-size: 0.9rem;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .timer {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .timer-block {
+      background: var(--deep-blue);
+      color: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      min-width: 60px;
+      text-align: center;
+    }
+    .timer-block .num {
+      font-size: 1.6rem;
+      font-weight: 900;
+      display: block;
+      line-height: 1.2;
+    }
+    .timer-block .label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.8;
+    }
+
+    /* Счётчик мест */
+    .spots {
+      margin: 1.5rem 0;
+    }
+    .spots-text {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--deep-blue);
+      margin-bottom: 8px;
+    }
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #E2E8F0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+      border-radius: 10px;
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    .pricing-box .btn {
+      margin-top: 1rem;
+      width: 100%;
+      font-size: 1.1rem;
+      padding: 16px;
+    }
+
+    /* ===== FAQ ===== */
+    .faq {
+      padding: 80px 0;
+    }
+
+    .faq-list {
+      max-width: 700px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .faq-item {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: box-shadow var(--transition);
+    }
+    .faq-item:hover {
+      box-shadow: var(--shadow-hover);
+    }
+
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 20px 24px;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--deep-blue);
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-family: inherit;
+    }
+    .faq-question .chevron {
+      font-size: 1.2rem;
+      transition: transform var(--transition);
+      flex-shrink: 0;
+      color: var(--accent);
+    }
+    .faq-item.active .faq-question .chevron {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+    }
+    .faq-answer-inner {
+      padding: 0 24px 20px;
+      font-size: 0.95rem;
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      padding: 40px 0;
+      background: #1E293B;
+      color: #CBD5E1;
+      text-align: center;
+    }
+    .footer p {
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+    }
+    .footer a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    .footer .btn {
+      margin-bottom: 18px;
+    }
+    .footer .copy {
+      font-size: 0.8rem;
+      opacity: 0.6;
+    }
+
+    /* ===== Общие секции ===== */
+    section {
+      position: relative;
+    }
+
+    /* Мелкие адаптивные правки */
+    @media (max-width: 480px) {
+      .btn {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+      }
+      .timer-block {
+        min-width: 50px;
+        padding: 8px 10px;
+      }
+      .timer-block .num {
+        font-size: 1.3rem;
+      }
+      .pricing-box {
+        padding: 28px 20px;
+      }
+    }
+
+    @media (max-width: 320px) {
+      .container {
+        padding: 0 12px;
+      }
+      .hero h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="header" id="header">
+    <div class="container header-inner">
+      <a href="#" class="logo">🕌 Адаб <span>•</span> Онлайн-курс</a>
+      <nav class="nav">
+        <a href="#about">О курсе</a>
+        <a href="#program">Программа</a>
+        <a href="#teacher">Преподаватель</a>
+        <a href="#pricing">Цена</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a href="https://t.me/ustaz_hanif" target="_blank" class="btn btn-primary desktop-only">Записаться</a>
+      <button class="hamburger" id="hamburger" aria-label="Открыть меню">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Мобильное меню -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" class="mobile-link">О курсе</a>
+    <a href="#program" class="mobile-link">Программа</a>
+    <a href="#teacher" class="mobile-link">Преподаватель</a>
+    <a href="#pricing" class="mobile-link">Цена</a>
+    <a href="#faq" class="mobile-link">FAQ</a>
+    <a href="https://t.me/ustaz_hanif" target="_blank" class="btn btn-primary">Записаться</a>
+  </div>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="reveal">
+            <h1>Научите сына вести себя красиво — по Сунне</h1>
+            <p>Живые онлайн-уроки адаба для мальчиков 7–12&nbsp;лет. Чтобы вы гордились им дома, на улице и в мечети</p>
+            <div class="hero-buttons">
+              <a href="https://t.me/ustaz_hanif" target="_blank" class="btn btn-primary btn-pulse">Записаться со скидкой 10%</a>
+              <a href="#program" class="btn btn-outline">Программа курса ↓</a>
+            </div>
+          </div>
+          <div class="hero-visual reveal">
+            <div class="hero-circle">
+              <span class="hero-emoji">🕌</span>
+              <span class="hero-emoji-small">📖 ✨ 🤲</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ПРОБЛЕМА → РЕШЕНИЕ ===== -->
+    <section class="problems" id="about">
+      <div class="container">
+        <h2 class="section-title reveal">Знакомая ситуация?</h2>
+        <div class="problems-grid">
+          <!-- Карточка 1 -->
+          <div class="problem-card reveal">
+            <div class="problem-part issue">
+              «Сын грубит старшим, а я не знаю, что делать»
+            </div>
+            <div class="arrow-divider">⬇️</div>
+            <div class="problem-part solution">
+              Он выучит адаб общения с родителями и взрослыми
+            </div>
+          </div>
+          <!-- Карточка 2 -->
+          <div class="problem-card reveal">
+            <div class="problem-part issue">
+              «В мечети балуется, не знает правил»
+            </div>
+            <div class="arrow-divider">⬇️</div>
+            <div class="problem-part solution">
+              Освоит адаб посещения мечети и пятничной молитвы
+            </div>
+          </div>
+          <!-- Карточка 3 -->
+          <div class="problem-card reveal">
+            <div class="problem-part issue">
+              «За столом сидит в телефоне, ест левой рукой»
+            </div>
+            <div class="arrow-divider">⬇️</div>
+            <div class="problem-part solution">
+              Будет знать адаб еды, питья и поведения в гостях
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ДЛЯ КОГО ===== -->
+    <section class="audience reveal">
+      <div class="container">
+        <h2 class="section-title">Курс для мальчиков 7–12 лет</h2>
+        <p class="audience-text">
+          Даже если сын неусидчивый и никогда не интересовался правилами — уроки построены живо, с примерами и без скуки
+        </p>
+        <div class="audience-warning">
+          <span class="icon">ℹ️</span>
+          <span><strong>Кому НЕ подойдёт:</strong> тем, кто не хочет стараться на пути получения знаний</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ПРОГРАММА ===== -->
+    <section class="program" id="program">
+      <div class="container">
+        <h2 class="section-title reveal">Чему научится ваш сын</h2>
+        <p class="section-subtitle reveal">13 модулей, которые охватывают все стороны жизни мусульманского мальчика</p>
+        <div class="program-grid">
+          <div class="module-card reveal"><span class="emoji">🤝</span><span class="name">Адаб приветствия</span></div>
+          <div class="module-card reveal"><span class="emoji">🚪</span><span class="name">Адаб испрашивания разрешения войти</span></div>
+          <div class="module-card reveal"><span class="emoji">🕌</span><span class="name">Адаб пятницы</span></div>
+          <div class="module-card reveal"><span class="emoji">🕋</span><span class="name">Адаб посещения мечети</span></div>
+          <div class="module-card reveal"><span class="emoji">👨‍👩‍👦</span><span class="name">Адаб с родителями и взрослыми</span></div>
+          <div class="module-card reveal"><span class="emoji">📖</span><span class="name">Адабы со Священным Куръаном</span></div>
+          <div class="module-card reveal"><span class="emoji">🍽️</span><span class="name">Адабы принятия еды и питья</span></div>
+          <div class="module-card reveal"><span class="emoji">👔</span><span class="name">Адабы одежды и внешнего вида</span></div>
+          <div class="module-card reveal"><span class="emoji">🌙</span><span class="name">Адабы в месяц Рамадан</span></div>
+          <div class="module-card reveal"><span class="emoji">🏡</span><span class="name">Адабы с соседями</span></div>
+          <div class="module-card reveal"><span class="emoji">🫖</span><span class="name">Адабы с гостями и в гостях</span></div>
+          <div class="module-card reveal"><span class="emoji">🚿</span><span class="name">Адабы справления нужды</span></div>
+          <div class="module-card reveal"><span class="emoji">😴</span><span class="name">Адабы сна</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ПРЕПОДАВАТЕЛЬ ===== -->
+    <section class="teacher" id="teacher">
+      <div class="container">
+        <h2 class="section-title reveal">Кто ведёт уроки</h2>
+        <div class="teacher-card reveal">
+          <div class="teacher-avatar">🧑‍🏫</div>
+          <p class="teacher-desc">
+            Студент 3&nbsp;курса Исламского медресе. Молодой, энергичный, знает подход к мальчикам. Объясняет без скуки, сам следует Сунне и говорит с детьми на одном языке.
+          </p>
+          <ul class="teacher-points">
+            <li><span class="emoji">🎓</span> 3 года изучения исламских наук</li>
+            <li><span class="emoji">🧒</span> Опыт работы с детьми 7–12 лет</li>
+            <li><span class="emoji">💬</span> Живое общение, никаких скучных лекций</li>
+          </ul>
+          <blockquote class="teacher-quote">
+            «Родители доверяют мне, потому что я отношусь к каждому ученику как к младшему брату»
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ФОРМАТ ===== -->
+    <section class="format" id="format">
+      <div class="container">
+        <h2 class="section-title reveal">Как проходят уроки</h2>
+        <div class="format-grid">
+          <div class="format-card reveal">
+            <div class="emoji">💻</div>
+            <h3>Живые занятия в Zoom</h3>
+            <p>Преподаватель видит каждого ученика и общается лично</p>
+          </div>
+          <div class="format-card reveal">
+            <div class="emoji">🙋‍♂️</div>
+            <h3>Интерактив</h3>
+            <p>Вопросы, ответы, разбор реальных ситуаций из жизни</p>
+          </div>
+          <div class="format-card reveal">
+            <div class="emoji">📅</div>
+            <h3>Удобное расписание</h3>
+            <p>Вечерние группы — не мешает школе и другим занятиям</p>
+          </div>
+        </div>
+        <div class="format-note reveal">
+          📹 Доступ к записям уроков остаётся у вас навсегда
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== ЦЕНА ===== -->
+    <section class="pricing" id="pricing">
+      <div class="container">
+        <h2 class="section-title reveal">Стоимость и запись</h2>
+        <div class="pricing-box reveal">
+          <div class="price-row">
+            <span class="old-price">5 500 ₽</span>
+            <span class="new-price">4 950 ₽</span>
+            <span class="discount-badge">−10%</span>
+          </div>
+          <div class="timer-label">До конца скидки:</div>
+          <div class="timer" id="timer">
+            <div class="timer-block">
+              <span class="num" id="timer-days">00</span>
+              <span class="label">дней</span>
+            </div>
+            <div class="timer-block">
+              <span class="num" id="timer-hours">00</span>
+              <span class="label">часов</span>
+            </div>
+            <div class="timer-block">
+              <span class="num" id="timer-mins">00</span>
+              <span class="label">минут</span>
+            </div>
+            <div class="timer-block">
+              <span class="num" id="timer-secs">00</span>
+              <span class="label">секунд</span>
+            </div>
+          </div>
+
+          <!-- Счётчик мест -->
+          <div class="spots">
+            <div class="spots-text">🔥 Осталось <strong>7 мест</strong> из 15</div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <a href="https://t.me/ustaz_hanif" target="_blank" class="btn btn-primary btn-pulse">
+            Записаться и закрепить скидку ✨
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="faq" id="faq">
+      <div class="container">
+        <h2 class="section-title reveal">Ответы на вопросы</h2>
+        <div class="faq-list">
+          <div class="faq-item reveal">
+            <button class="faq-question">
+              Мой сын неусидчивый, ему подойдёт?
+              <span class="chevron">▼</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                Да! Уроки построены короткими блоками с живым общением, без скуки. Дети вовлечены всё занятие.
+              </div>
+            </div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-question">
+              Нужно ли присутствие родителей?
+              <span class="chevron">▼</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                По желанию. Мальчики могут заниматься сами, но вы можете быть рядом и видеть успехи.
+              </div>
+            </div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-question">
+              Что нужно для урока?
+              <span class="chevron">▼</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                Телефон, планшет или компьютер с Zoom. Никаких учебников покупать не нужно.
+              </div>
+            </div>
+          </div>
+          <div class="faq-item reveal">
+            <button class="faq-question">
+              Мы пропустили занятие — что делать?
+              <span class="chevron">▼</span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-inner">
+                Запись урока будет доступна, можно посмотреть в удобное время.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="container">
+      <p>Остались вопросы? Напишите в Telegram: <a href="https://t.me/ustaz_hanif" target="_blank">@ustaz_hanif</a></p>
+      <a href="https://t.me/ustaz_hanif" target="_blank" class="btn btn-primary">Связаться ✉️</a>
+      <p class="copy">© 2026 Курс адаба для мальчиков</p>
+    </div>
+  </footer>
+
+  <script>
+    // ===== НАСТРАИВАЕМЫЕ ДАННЫЕ =====
+    const CONFIG = {
+      telegramLink: 'https://t.me/ustaz_hanif',
+      timerDays: 3,           // Количество дней для обратного отсчёта
+      totalSpots: 15,
+      remainingSpots: 7
+    };
+
+    // ===== STICKY HEADER =====
+    const header = document.getElementById('header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // ===== МОБИЛЬНОЕ МЕНЮ =====
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileMenu.classList.toggle('open');
+      // Блокировка скролла при открытом меню
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    // Закрытие мобильного меню при клике на ссылку
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('active');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // ===== ПЛАВНЫЙ СКРОЛЛ =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const targetId = this.getAttribute('href');
+        if (targetId === '#') return;
+        e.preventDefault();
+        const target = document.querySelector(targetId);
+        if (target) {
+          const offset = header.offsetHeight + 10;
+          const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+          window.scrollTo({ top, behavior: 'smooth' });
+        }
+      });
+    });
+
+    // ===== ТАЙМЕР ОБРАТНОГО ОТСЧЁТА =====
+    // Сохраняем deadline в localStorage, чтобы при обновлении страницы таймер не сбрасывался
+    let deadline;
+    const storedDeadline = localStorage.getItem('adab_course_deadline');
+
+    if (storedDeadline && new Date(storedDeadline) > new Date()) {
+      deadline = new Date(storedDeadline);
+    } else {
+      deadline = new Date(Date.now() + CONFIG.timerDays * 24 * 60 * 60 * 1000);
+      localStorage.setItem('adab_course_deadline', deadline.toISOString());
+    }
+
+    function updateTimer() {
+      const now = new Date();
+      let diff = deadline - now;
+
+      if (diff <= 0) {
+        diff = 0;
+        // Можно сбросить таймер или показать «Скидка истекла»
+      }
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+
+      document.getElementById('timer-days').textContent = String(days).padStart(2, '0');
+      document.getElementById('timer-hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('timer-mins').textContent = String(mins).padStart(2, '0');
+      document.getElementById('timer-secs').textContent = String(secs).padStart(2, '0');
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+
+    // ===== INTERSECTION OBSERVER — АНИМАЦИЯ ПОЯВЛЕНИЯ =====
+    const revealElements = document.querySelectorAll('.reveal');
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: '0px 0px -40px 0px'
+    };
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target); // Анимируем один раз
+        }
+      });
+    }, observerOptions);
+
+    revealElements.forEach(el => revealObserver.observe(el));
+
+    // ===== ПРОГРЕСС-БАР МЕСТ =====
+    const progressFill = document.getElementById('progressFill');
+    const spotsPercent = ((CONFIG.totalSpots - CONFIG.remainingSpots) / CONFIG.totalSpots) * 100;
+
+    const progressObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          progressFill.style.width = spotsPercent + '%';
+          progressObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    progressObserver.observe(progressFill.parentElement);
+
+    // ===== FAQ АККОРДЕОН =====
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.parentElement;
+        const answer = item.querySelector('.faq-answer');
+        const isActive = item.classList.contains('active');
+
+        // Закрыть все
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('active');
+          i.querySelector('.faq-answer').style.maxHeight = null;
+        });
+
+        // Открыть текущий, если он был закрыт
+        if (!isActive) {
+          item.classList.add('active');
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
